@@ -1,7 +1,7 @@
 import { screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Login from "./Login";
-import { renderWithRouter } from "../../test/utils";
+import { mockLoginFailure, renderWithRouter } from "../../test/utils";
 
 describe("Login", () => {
   afterEach(() => {
@@ -38,5 +38,17 @@ describe("Login", () => {
 
     expect(usernameInput).toHaveValue(usernameValue);
     expect(passwordInput).toHaveValue(passwordValue);
+  });
+
+  it("shows error when login fails", async () => {
+    jest.spyOn(window, "fetch").mockImplementationOnce(mockLoginFailure);
+
+    renderWithRouter(<Login />);
+
+    const button = screen.getByTestId("login-button");
+    userEvent.click(button);
+
+    const errorToast = await screen.findByTestId("error-toast");
+    expect(errorToast).toBeInTheDocument();
   });
 });

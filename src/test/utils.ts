@@ -11,23 +11,14 @@ const okResponseBase = {
   status: 200,
 };
 
-export const mockForecastsFetch = async (
+export const mockLoginFailure = async (
   input: RequestInfo | URL,
   init?: RequestInit
 ): Promise<Response> => {
-  if (typeof input !== "string") {
-    return {} as Response;
-  }
-  if (input.includes(Endpoint.CITIES)) {
+  if (typeof input === "string" && input.includes(Endpoint.AUTHORIZE)) {
     return {
-      ...okResponseBase,
-      json: async () => ["Vilnius", "Klaipėda"],
-    } as Response;
-  }
-  if (input.includes(Endpoint.WEATHERS)) {
-    return {
-      ...okResponseBase,
-      json: async () => ["Vilnius", "Klaipėda"],
+      ok: false,
+      status: 401,
     } as Response;
   }
   return {} as Response;
