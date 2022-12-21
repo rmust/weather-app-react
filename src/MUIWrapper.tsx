@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { Box, createTheme, Paper, ThemeProvider } from "@mui/material";
 
 const darkTheme = createTheme({
