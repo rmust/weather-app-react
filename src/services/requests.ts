@@ -3,8 +3,13 @@ import { Endpoint } from "./types";
 export const proxyUrl = "http://0.0.0.0:8080";
 export const baseApiUrl = "https://weather-api.isun.ch/api";
 
-export const getApiUrl = (endpoint: Endpoint | string) =>
-  `${proxyUrl}/${baseApiUrl}/${endpoint}`;
+export const getApiUrl = (endpoint: Endpoint | string) => {
+  const url = `${baseApiUrl}/${endpoint}`;
+  if (process.env.NODE_ENV === "development") {
+    return `${proxyUrl}/${url}`;
+  }
+  return url;
+};
 
 const baseHeaders = {
   accept: "application/json",

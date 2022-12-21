@@ -10,6 +10,7 @@ const FETCH_INTERVAL = 15000;
 // TODO: refactor
 export const useForecasts = () => {
   const { token } = useAuth();
+  const [cities, setCities] = useState(getQueryParams("cities"));
 
   useEffect(() => {
     if (cities.length) {
@@ -23,12 +24,14 @@ export const useForecasts = () => {
         }
         return setCities(data);
       })
-      .catch();
+      .catch(() => {
+        /* catches abort error*/
+      });
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [cities.length, token]);
 
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
 
@@ -38,7 +41,6 @@ export const useForecasts = () => {
     };
   }, [intervalId]);
 
-  const [cities, setCities] = useState(getQueryParams("cities"));
   const [currentCity, setCurrentCity] = useState();
   const [weather, setWeather] = useState<Weather>();
   const [error, setError] = useState<ParsedError>();

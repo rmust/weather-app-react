@@ -28,7 +28,7 @@ export const useLogin = (element: HTMLFormElement | null) => {
     }>(
       { password: password?.value, username: username?.value },
       Endpoint.AUTHORIZE
-    );
+    ).catch();
 
     if (_error) {
       setIsLoading(false);
